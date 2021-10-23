@@ -24,11 +24,11 @@ public class Keybinds : MonoBehaviour
         keys.Add("shoot", KeyCode.Mouse0);
         keys.Add("use", KeyCode.E);
 
-        /*left.text = keys["left"].ToString();
+        left.text = keys["left"].ToString();
         right.text = keys["right"].ToString();
         jump.text = keys["jump"].ToString();
         crouch.text = keys["crouch"].ToString();
-        use.text = keys["use"].ToString();*/
+        use.text = keys["use"].ToString();
         movescript = GetComponent<MoveScript>();
     }
 
