@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Keybinds : MonoBehaviour{
     private Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
 
-    public Text left, right, jump, crouch, shoot, use;
+    public Text left, right, jump, crouch, shoot, use, menu;
 
     private GameObject currentKey;
 
@@ -18,12 +18,14 @@ public class Keybinds : MonoBehaviour{
         keys.Add("crouch", KeyCode.S);
         keys.Add("shoot", KeyCode.Mouse0);
         keys.Add("use", KeyCode.E);
+        keys.Add("menu", KeyCode.Escape);
 
         left.text = keys["left"].ToString();
         right.text = keys["right"].ToString();
         jump.text = keys["jump"].ToString();
         crouch.text = keys["crouch"].ToString();
         use.text = keys["use"].ToString();
+        use.text = keys["menu"].ToString();
     }
 
     void Update(){
@@ -43,6 +45,9 @@ public class Keybinds : MonoBehaviour{
             // Shoot
         }
         if(Input.GetKeyDown(keys["use"])){
+            // Move right
+        }
+        if(Input.GetKeyDown(keys["menu"])){
             // Move right
         }
     }

@@ -22,4 +22,8 @@ public class Player : MonoBehaviour{
         position.y = data.position[1];
         transform.position = position;
     }
+
+      public void RestartLostGame(){
+        // Restart Level
+      }
 }
