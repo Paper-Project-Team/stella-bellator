@@ -23,17 +23,27 @@ public class LoadLevel : MonoBehaviour
         
     }
 
-    /*private void OnTriggerEnter2D(Boss1 boss1){
+    /*private void LoadLevel1(Boss1 boss1){
         if(boss1.health < 0){
-            LoadScene();
+            InGameMenuStart.NextLevel();
         }
-    }*/
+    }
 
-    /*void LoadScene(){
-        if(useIntegerToLoadLevel){
-            SceneManager.loadScene(iLevelToLoad);
-        } else{
-            SceneManager.LoadScene(sLevelToLoad);
+    private void LoadLevel2(Boss1 boss1){
+        if(boss1.health < 0){
+            InGameMenuStart.NextLevel();
+        }
+    }
+
+    private void LoadLevel3(Boss1 boss1){
+        if(boss1.health < 0){
+            InGameMenuStart.NextLevel();
+        }
+    }
+
+    private void LoadFinalCutscene(Boss1 boss1){
+        if(boss1.health < 0){
+            InGameMenuStart.NextLevel();
         }
     }*/
 }
