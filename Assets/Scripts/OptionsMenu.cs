@@ -8,11 +8,7 @@ public class OptionsMenu : MonoBehaviour{
 
     public AudioMixer audioMixer;
     
-    public void SetMusicVolume(float volume){
-        audioMixer.SetFloat("music", volume);
-    }
-
-    public void SetSoundVolume(float volume){
-        audioMixer.SetFloat("sound", volume);
+    public void SetVolume(float volume){
+        audioMixer.SetFloat("volume", volume);
     }
 }
