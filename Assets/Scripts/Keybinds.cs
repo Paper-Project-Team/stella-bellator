@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 using UnityEngine.UI;
 
@@ -8,12 +9,19 @@ public class Keybinds : MonoBehaviour
 {
     private Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
 
-    public Text left, right, jump, crouch, shoot, use;
+    public Text left, right, jump, crouch, shoot, use, swap1, swap2, swap3;
 
     private GameObject currentKey;
     [SerializeField] private MoveScript movescript;
+    [SerializeField] private ShootingScript shooter;
     private bool isJumping = false;
     private bool isCrouching = false;
+    private Animator animator;
+    private PlayerWeaponManager manager;
+    
+    
+    private GameObject player;
+    
 
     void Start()
     {
@@ -23,17 +31,26 @@ public class Keybinds : MonoBehaviour
         keys.Add("crouch", KeyCode.S);
         keys.Add("shoot", KeyCode.Mouse0);
         keys.Add("use", KeyCode.E);
+        /*keys.Add("swap1", KeyCode.Alpha1);
+        keys.Add("swap2", KeyCode.Alpha2);
+        keys.Add("swap3", KeyCode.Alpha3);
 
         left.text = keys["left"].ToString();
         right.text = keys["right"].ToString();
         jump.text = keys["jump"].ToString();
         crouch.text = keys["crouch"].ToString();
-        use.text = keys["use"].ToString();
+        use.text = keys["use"].ToString();*/
         movescript = GetComponent<MoveScript>();
+        manager = GetComponent<PlayerWeaponManager>();
+        animator = GetComponent<Animator>();
+        shooter = GetComponent<ShootingScript>();
+       
+        
     }
 
     void Update()
     {
+        animator.SetBool("isShooting", false);
         isJumping = false;
         isCrouching = false;
         if (Input.GetKeyDown(keys["jump"]))
@@ -49,18 +66,35 @@ public class Keybinds : MonoBehaviour
         
         if(isJumping)
         {
+            // Can't crouch while jumping
             isCrouching = false;
         }
 
         movescript.Move(Input.GetAxis("Horizontal"), isCrouching, isJumping);
         
-        if (Input.GetKeyDown(keys["shoot"]))
-        {
-            // Shoot
-        }
+        
         if (Input.GetKeyDown(keys["use"]))
         {
             // Move right
+        }
+        /*if (Input.GetKeyDown(keys["swap1"]))
+        {
+            manager.Swap(1); 
+        }
+        if (Input.GetKeyDown(keys["swap2"]))
+        {
+            manager.Swap(2);
+        }
+        if (Input.GetKeyDown(keys["swap3"]))
+        {
+            manager.Swap(3);
+        }
+        */
+        if (Input.GetKeyDown(keys["shoot"]))
+        {
+            // Shoot
+            animator.SetBool("isShooting", true);
+            shooter.Shoot();
         }
     }
 
