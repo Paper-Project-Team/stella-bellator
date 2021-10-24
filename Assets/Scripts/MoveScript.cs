@@ -15,34 +15,42 @@ public class MoveScript : MonoBehaviour
     [SerializeField] private Transform ceilingPos;
     [SerializeField] private BoxCollider2D playerCollider; // Larger collider that will disable when crouching
 
-    const float groundedRadius = 0.2f; // Radius of circle to check if character is grounded
+    const float groundedRadius = 0.02f; // Radius of circle to check if character is grounded
     public bool isGrounded; // Is the player grounded?
     const float ceilingRadius = 0.01f; // Radius of circle to check if the ceiling is being touched
     private Rigidbody2D playerCharacter;
     private bool facingRight = true; // Is the player facing right?
     private Vector2 moveDirection = Vector2.zero;
     private SpriteRenderer playerSprite;
-    public bool isLanding = false;
-    public bool isCrouching = false;
-    public bool isMoving = false;
+    private bool isLanding = false;
+    private bool isCrouching = false;
+    private bool isMoving = false;
+    private bool isJumping = false;
     public GameObject player;
+    private Animator animator;
     
     void Start()
     {
         playerCharacter = GetComponent<Rigidbody2D>();
         playerSprite = GetComponent<SpriteRenderer>();
-        
+        animator = GetComponent<Animator>();
     }
 
     
     private void FixedUpdate()
     {
+        animator.SetBool("isMoving", isMoving);
+        animator.SetBool("isCrouch", isCrouching);
+        animator.SetBool("midair", !isGrounded);
+        animator.SetBool("isLanding", isLanding);
+        animator.SetBool("isJumping", isJumping);
+        isJumping = false;
         transform.Rotate(Vector3.zero);
         isLanding = false;
         bool wasGrounded = isGrounded;
         isGrounded = false;
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundPos.position, groundedRadius, groundLayer);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(groundPos.position.x, groundPos.position.y - 0.18f), groundedRadius, groundLayer);
         for(int i = 0; i < colliders.Length; i++)
         {
             if(colliders[i].gameObject != gameObject)
@@ -54,12 +62,14 @@ public class MoveScript : MonoBehaviour
                 }
             }
         }
-
+        Debug.Log(isGrounded);
+        
         
     }
 
     public void Move(float move, bool crouching, bool jumping)
     {
+        
         //Checks if the player can stand
         if(!crouching)
         {
@@ -119,12 +129,13 @@ public class MoveScript : MonoBehaviour
             {
                 Flip();
             }
+            isMoving = Math.Abs(playerCharacter.velocity.x) > 0;
         }
-
+        
         if(isGrounded && jumping)
         {
+            isJumping = true;
             isGrounded = false;
-            
             playerCharacter.AddForce(new Vector2(0f, jumpSpeed));
         }
     }
