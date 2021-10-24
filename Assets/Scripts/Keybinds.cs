@@ -4,58 +4,74 @@ using UnityEngine;
 
 using UnityEngine.UI;
 
-public class Keybinds : MonoBehaviour{
+public class Keybinds : MonoBehaviour
+{
     private Dictionary<string, KeyCode> keys = new Dictionary<string, KeyCode>();
 
-    public Text left, right, jump, crouch, shoot, use, menu;
+    public Text left, right, jump, crouch, shoot, use;
 
     private GameObject currentKey;
+    [SerializeField] private MoveScript movescript;
+    private bool isJumping = false;
+    private bool isCrouching = false;
 
-    void Start(){
+    void Start()
+    {
         keys.Add("left", KeyCode.A);
         keys.Add("right", KeyCode.D);
         keys.Add("jump", KeyCode.Space);
         keys.Add("crouch", KeyCode.S);
         keys.Add("shoot", KeyCode.Mouse0);
         keys.Add("use", KeyCode.E);
-        keys.Add("menu", KeyCode.Escape);
-
+        /*
         left.text = keys["left"].ToString();
         right.text = keys["right"].ToString();
         jump.text = keys["jump"].ToString();
         crouch.text = keys["crouch"].ToString();
         use.text = keys["use"].ToString();
-        use.text = keys["menu"].ToString();
+        */
+        movescript = GetComponent<MoveScript>();
     }
 
-    void Update(){
-        if(Input.GetKeyDown(keys["left"])){
-            // Move left
-        }
-        if(Input.GetKeyDown(keys["right"])){
-            // Move right
-        }
-        if(Input.GetKeyDown(keys["jump"])){
+    void Update()
+    {
+        isJumping = false;
+        isCrouching = false;
+        if (Input.GetKeyDown(keys["jump"]))
+        {
             // Jump
+            isJumping = true;
         }
-        if(Input.GetKeyDown(keys["crouch"])){
+        if (Input.GetKey(keys["crouch"]))
+        {
             // Crouch
+            isCrouching = true;
         }
-        if(Input.GetKeyDown(keys["shoot"])){
+        
+        if(isJumping)
+        {
+            isCrouching = false;
+        }
+
+        movescript.Move(Input.GetAxis("Horizontal"), isCrouching, isJumping);
+        
+        if (Input.GetKeyDown(keys["shoot"]))
+        {
             // Shoot
         }
-        if(Input.GetKeyDown(keys["use"])){
-            // Move right
-        }
-        if(Input.GetKeyDown(keys["menu"])){
+        if (Input.GetKeyDown(keys["use"]))
+        {
             // Move right
         }
     }
 
-    void OnGUI(){
-        if(currentKey != null){
+    void OnGUI()
+    {
+        if (currentKey != null)
+        {
             Event e = Event.current;
-            if(e.isKey){
+            if (e.isKey)
+            {
                 keys[currentKey.name] = e.keyCode;
                 currentKey.transform.GetChild(0).GetComponent<Text>().text = e.keyCode.ToString();
                 currentKey = null;
@@ -63,7 +79,8 @@ public class Keybinds : MonoBehaviour{
         }
     }
 
-    public void ChangeKey(GameObject clicked){
+    public void ChangeKey(GameObject clicked)
+    {
         currentKey = clicked;
     }
 }

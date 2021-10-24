@@ -23,17 +23,17 @@ public class LoadLevel : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Boss1 boss1){
+    /*private void OnTriggerEnter2D(Boss1 boss1){
         if(boss1.health < 0){
             LoadScene();
         }
-    }
+    }*/
 
-    void LoadScene(){
+    /*void LoadScene(){
         if(useIntegerToLoadLevel){
             SceneManager.loadScene(iLevelToLoad);
         } else{
             SceneManager.LoadScene(sLevelToLoad);
         }
-    }
+    }*/
 }
