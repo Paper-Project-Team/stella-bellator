@@ -19,7 +19,7 @@ public class MoveScript : MonoBehaviour
     public bool isGrounded; // Is the player grounded?
     const float ceilingRadius = 0.01f; // Radius of circle to check if the ceiling is being touched
     private Rigidbody2D playerCharacter;
-    private bool facingRight = true; // Is the player facing right?
+    public bool facingRight = true; // Is the player facing right?
     private Vector2 moveDirection = Vector2.zero;
     private SpriteRenderer playerSprite;
     private bool isLanding = false;
@@ -36,6 +36,15 @@ public class MoveScript : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    void Update(){
+        if(Input.GetButtonDown("Jump")){
+            Jump();
+        }
+    }
+
+    void Jump(){
+        playerCharacter.GetComponent<Rigidbody2D>().AddForce(new Vector2(0f,5f), ForceMode2D.Impulse);
+    }
     
     private void FixedUpdate()
     {
@@ -144,8 +153,6 @@ public class MoveScript : MonoBehaviour
     {
         facingRight = !facingRight;
 
-        Vector2 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
+        transform.Rotate(0f,180f,0f);
     }
 }
