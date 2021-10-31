@@ -5,8 +5,8 @@ using UnityEngine;
 public class BulletPlayer : MonoBehaviour
 {
 
-    public float speed = 20f;
-    public int damage = 10;
+    private float speed = 20f;
+    private int damage = 10;
     public Rigidbody2D rb;
 
     // Start is called before the first frame update
@@ -24,7 +24,7 @@ public class BulletPlayer : MonoBehaviour
         Destroy(gameObject);
     }*/
 
-    bool isTriggered;
+    /*bool isTriggered;
     float waitTime = 5f; 
     void Update () { 
         if (isTriggered == true) {
@@ -34,12 +34,14 @@ public class BulletPlayer : MonoBehaviour
         {
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
         }
-    }
+    }*/
 
     private void OnTriggerEnter2D(Collider2D other) { 
         if (other.gameObject.tag == "Enemy") { 
-            isTriggered = true; 
+            //isTriggered = true;
+            EnemyScript enemy = other.GetComponent<EnemyScript>();
+            enemy.TakeDamage(damage, enemy.gameObject);
+            Destroy(this.gameObject);
         }
     }
-    //public void OnTriggerStay2D(Collider2D hitInfo)
 }

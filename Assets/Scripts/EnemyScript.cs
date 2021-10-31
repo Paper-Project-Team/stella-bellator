@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class EnemyScript : MonoBehaviour
 {
-    public int health = 100;
+    private int health = 100;
 
     public float Range;
     public Transform Target; // player
@@ -54,23 +54,24 @@ public class EnemyScript : MonoBehaviour
                 Shoot();
             }
         }
-        catch (MissingReferenceException ex)
+        catch (MissingReferenceException)
         {
             SceneManager.LoadScene("Menu");
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject enemy)
     {
         health -= damage;
         if(health <= 0)
         {
-            Destroy(this);
+            Destroy(enemy.gameObject);
         }
     }
 
     void Shoot(){
-        Instantiate(bullet, Shootpoint.position, Shootpoint.rotation);
+        GameObject aBullet = Instantiate(bullet, Shootpoint.position, Shootpoint.rotation);
+        Destroy(aBullet, 5);
     }
 
     private void OnDrawGizmosSelected()

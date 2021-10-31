@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
 
-    public int health = 100;
+    private int health = 1000;
     
     // Start is called before the first frame update
     void Start()
@@ -15,13 +15,13 @@ public class Player : MonoBehaviour
         
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject player)
     {
         health -= damage;
         if(health <= 0)
         {
-            Destroy(this);
             SceneManager.LoadScene("Menu");
+            Destroy(player.gameObject);
         }
     }
 
